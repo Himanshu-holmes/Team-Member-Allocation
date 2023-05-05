@@ -1,10 +1,15 @@
 
-
-import Header from './Header.jsx'
+import React from 'react';
+import Header from './Header'
+import Footer from './Footer';
+import Employees from './Employees';
+import GroupedTeamMembers from './GroupedTeamMembers';
+import Nav from './Nav';
+import NotFound from './NotFound';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useState, useEffect } from 'react'
-import femaleProfile from './images/femaleProfile.jpg';
-import maleProfile from './images/maleProfile.jpg';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 
 
  function App () {
@@ -114,80 +119,25 @@ import maleProfile from './images/maleProfile.jpg';
        setEmployees(transformedEmployees);
     }
   
-  return (<div>
-    <Header selectedTeam={selectedTeam} 
-    teamMemberCount={employees.filter((employee)=> employee.teamName === selectedTeam).length}/>
-    <Employees employees={employees}
-    selectedTeam={selectedTeam}
-    handleEmployeeCardClick={handleEmployeeCardClick}
-    handleTeamSelectionChange={handleTeamSelectionChange}/>
-   
-    
-    <Footer/>
-  </div>)
+  return (
+    <Router>
+      <Nav/>
+          <Header selectedTeam={selectedTeam} 
+          teamMemberCount={employees.filter((employee)=> employee.teamName === selectedTeam).length}/>
+      <Routes>
+        <Route path="/"
+          element={<Employees employees={employees}
+          selectedTeam={selectedTeam}
+          handleEmployeeCardClick={handleEmployeeCardClick}
+          handleTeamSelectionChange={handleTeamSelectionChange}/>}>
+          </Route>
+          <Route path='/GroupedTeamMembers' element={<GroupedTeamMembers employees={employees} selectedTeam={selectedTeam} setTeam={setTeam}/>}></Route>
+          <Route path='*' element={<NotFound/>}></Route>
+      </Routes>
+          <Footer/>
+      </Router>
+  )
 }
 
-
-
-
-
-const Footer = () => {
-  var today = new Date();
-  return (<footer className='container'>
-    <div className='row justify-content-center mt-3 mb-4'>
-      <div className='col-8'>
-             <h5>Team Member Allocation App - {today.getFullYear()}</h5>
-      </div>   
-    </div>           
-  </footer>)
-}
-
-const Employees = ({employees,selectedTeam,handleEmployeeCardClick,handleTeamSelectionChange}) => {
-  
-
-  return (<main className='container'>
-    <div className='row justify-content-center mt-3 mb-3' >
-        <div className='col-8'>
-
-          <select className='form-select form-select-lg' value={selectedTeam} onChange={handleTeamSelectionChange}>
-            <option value="TeamA">TeamA</option>
-            <option value="TeamB">TeamB</option>
-            <option value="TeamC">TeamC</option>
-            <option value="TeamD">TeamD</option>
-          </select>
-        </div>
-     </div>   
-      <div className='row justify-content-center mt-3 mb-3' >
-        <div className='col-8'>
-          <div className='card-collection'>
-            {
-                employees.map((employee) => (
-            <div id={employee.id} className={(employee.teamName === selectedTeam ? 'card m-2 standout' : 'card m-2')} onClick={handleEmployeeCardClick}>
-            { (employee.gender === 'male') ?<image src={maleProfile} className='card-img-top'width="18rem" alt='malepic'/> :
-              <image src={femaleProfile} className='card-img-top'width="18rem" alt='femalepic'/>
-            }
-              <div className="card-body">
-                <h5 className="card-title">{employee.fullName}</h5>
-                <p className="card-text"><b>Designation:</b>{employee.designation}</p>
-              </div>
-            </div>
-            
-      
-                ))
-    } </div>   <style jsx
-         >{
-        `
-        .card {
-          width: 18rem;
-          cursor: pointer;
-        }`
-      }</style>    
-
-        </div>
-      </div>
-
-
-  </main>)
-}
 
 export default App;
