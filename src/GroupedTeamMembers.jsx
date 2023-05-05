@@ -35,10 +35,10 @@ function handleTeamClick (event){
    setTeam(event.currentTarget.id);                 
 }
 
-    return (<main className='container'>
+    return (<main className='container '>
         { groupedEmployees.map((item)=> {
                 return (
-                    <div key={item.team} className="card mt-2" style={{cursor:"pointer"}}>
+                    <div key={item.team} className="card mt-2 mx-auto" style={{cursor:"pointer"}}>
                         <h4 id={item.team} className="card-header text-secondary bg-white" onClick={handleTeamClick}>Team Name: {item.team}</h4>
                         <div id={"collapse_"+ item.team} className={item.collapsed === true?"collapse":""}>
                             <hr />

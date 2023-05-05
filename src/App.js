@@ -125,7 +125,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
           <Header selectedTeam={selectedTeam} 
           teamMemberCount={employees.filter((employee)=> employee.teamName === selectedTeam).length}/>
       <Routes>
-        <Route path="/"
+        <Route path="/Team-Member-Allocation/"
           element={<Employees employees={employees}
           selectedTeam={selectedTeam}
           handleEmployeeCardClick={handleEmployeeCardClick}
